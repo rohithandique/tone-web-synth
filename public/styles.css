@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: lightgrey;
+}
+
+#piano {
+  position: absolute;
+  height: 200px;
+  border: 5px solid black;
+}
+
+.majorKey {
+  height: 100%;
+  width: 50px;
+  background: white;
+  float: left;
+  border-right: 1px solid black;
+  position: relative;
+}
+
+.minorKey {
+  position: absolute;
+  height: 65%;
+  width: 55%;
+  z-index: 1;
+  background: #333333;
+  left: 75%;
+}
