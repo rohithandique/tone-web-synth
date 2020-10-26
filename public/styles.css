@@ -1,8 +1,14 @@
+
+/*basic reset*/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: lightgrey;
+}
+/*font size of the key names*/
+h6 {
+  font-size: 0.75vw;
 }
 
 #piano {
@@ -33,6 +39,25 @@
   left: 75%;
 }
 
+.keyName {
+  position: absolute;
+  top: 90%;
+  z-index: 1;
+}
+
+.minorKey > .keyName {
+  background-color: #333333;
+  color: white;
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+}
+
+.majorKey > .keyName {
+  background-color: white;
+  position: absolute;
+  left: 35%;
+}
 @media only screen and (max-width: 1000px) {
   .majorKey {
     width: 5vw;
