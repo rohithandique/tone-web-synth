@@ -70,3 +70,8 @@ h6 {
     border: 0px;
   }
 }
+
+/* octave knob */
+#octaveSlider{
+  padding: 10px;
+}
