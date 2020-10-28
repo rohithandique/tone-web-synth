@@ -3,8 +3,35 @@ const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 /*initialising the tone synth*/
 const synth = new Tone.Synth().toDestination();
 
+
+
 /*setting the number of octaves to be 3.
 then adding the major and minor keys for each octave*/
+
+/*rendering the initial keys on page load*/
+let keys="";
+for (let octave = 0; octave < 3; octave++) {
+  for (let i = 0; i < notes.length; i++) {
+    let hasSharp = true;
+    let note = notes[i];
+    if (note == 'E' || note == 'B') {
+      hasSharp = false;
+    }
+    keys += `<div class='majorKey'
+    data-note='${note + (octave)}'>`;
+    if (hasSharp) {
+      keys += `<div class='minorKey'
+      data-note='${note + '#' + (octave)}'>
+      <h6 class="keyName ">${note + '#' + (octave)}</h6>
+      </div>`;
+    }
+    keys += `<h6 class="keyName">${note + (octave)}</h6></div>`;
+  }
+}
+document.getElementById('piano').innerHTML = keys;
+addingListeners();
+
+/*keys rendered on octave change*/
 function octaveSlider(value) {
   document.getElementById('piano').innerHTML = "";
   document.getElementById('octaveValue').innerHTML = value;
