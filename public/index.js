@@ -5,31 +5,6 @@ const synth = new Tone.Synth().toDestination();
 
 /*setting the number of octaves to be 3.
 then adding the major and minor keys for each octave*/
-/*
-let keys = "";
-let currentOctave = 1;
-for (let octave = currentOctave; octave < currentOctave + 3; octave++) {
-  for (let i = 0; i < notes.length; i++) {
-    let hasSharp = true;
-    let note = notes[i];
-    if (note == 'E' || note == 'B') {
-      hasSharp = false;
-    }
-    keys += `<div class='majorKey'
-    data-note='${note + (octave)}'>`;
-    if (hasSharp) {
-      keys += `<div class='minorKey'
-      data-note='${note + '#' + (octave)}'>
-      <h6 class="keyName ">${note + '#' + (octave)}</h6>
-      </div>`;
-    }
-    keys += `<h6 class="keyName">${note + (octave)}</h6></div>`;
-  }
-}
-*/
-/*adding it to the html body*/
-//document.getElementById('piano').innerHTML = keys;
-
 function octaveSlider(value) {
   document.getElementById('piano').innerHTML = "";
   document.getElementById('octaveValue').innerHTML = value;
@@ -186,8 +161,6 @@ function addingListeners() {
     }
   })
 }
-
-
 
 /*releasing the sound when key is not pressed anymore*/
 document.addEventListener("keyup", event => {
