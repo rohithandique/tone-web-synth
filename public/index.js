@@ -9,7 +9,7 @@ const synth = new Tone.Synth().toDestination();
 then adding the major and minor keys for each octave*/
 
 /*rendering the initial keys on page load*/
-let keys="";
+let keys = "";
 for (let octave = 0; octave < 3; octave++) {
   for (let i = 0; i < notes.length; i++) {
     let hasSharp = true;
@@ -35,6 +35,7 @@ addingListeners();
 function octaveSlider(value) {
   document.getElementById('piano').innerHTML = "";
   document.getElementById('octaveValue').innerHTML = value;
+  let currentOctaveString = value;
   let currentOctave = parseInt(value);
   let newKeys = "";
 
@@ -57,13 +58,13 @@ function octaveSlider(value) {
     }
   }
   document.getElementById('piano').innerHTML = newKeys;
-  addingListeners();
+  addingListeners(currentOctaveString);
 }
 
-function addingListeners() {
+function addingListeners(currentOctaveString) {
   const majorKeyElem = document.querySelectorAll('.majorKey');
   const minorKeyElem = document.querySelectorAll('.minorKey');
-  
+
   /*triggering the note for mousepress*/
   majorKeyElem.forEach(item => {
     item.addEventListener('mousedown', event => {
@@ -73,7 +74,7 @@ function addingListeners() {
       item.lastChild.style.background = '#ccc';
     })
   })
-  
+
   /*releasing the note when the mouse leaves*/
   majorKeyElem.forEach(item => {
     item.addEventListener('mouseup', event => {
@@ -83,7 +84,17 @@ function addingListeners() {
       item.lastChild.style.background = 'white';
     })
   })
-  
+
+  majorKeyElem.forEach(item => {
+    item.addEventListener('mouseleave', event => {
+      let note = item.dataset.note;
+      synth.triggerRelease();
+      item.style.background = 'white';
+      item.lastChild.style.background = 'white';
+    })
+  })
+
+
   /*triggering the note for mousepress*/
   minorKeyElem.forEach(item => {
     item.addEventListener('mousedown', event => {
@@ -93,7 +104,7 @@ function addingListeners() {
       item.style.background = 'black';
     })
   })
-  
+
   /*releasing the note when the mouse leaves*/
   minorKeyElem.forEach(item => {
     item.addEventListener('mouseup', event => {
@@ -103,94 +114,105 @@ function addingListeners() {
       item.style.background = '#333';
     })
   })
-  
+
+  minorKeyElem.forEach(item => {
+    item.addEventListener('mouseleave', event => {
+      let note = item.dataset.note;
+      synth.triggerRelease();
+      event.stopPropagation();
+      item.style.background = '#333';
+    })
+  })
+
   /*getting the key pressed through the keyboard.
     S  D    G   H  J 
   Z  X  C  V  B  N  M 
   this is what an octave should look like*/
-  
+
   let pressedKey = "";
   document.addEventListener("keypress", event => {
+
     switch (event.key) {
       case "z":
       case "Z":
-        pressedKey = "C4";
+        pressedKey = "C" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
       case "s":
       case "S":
-        pressedKey = "C#4";
+        pressedKey = "C#" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "black";
         break;
       case "x":
       case "X":
-        pressedKey = "D4";
+        pressedKey = "D" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
       case "d":
       case "D":
-        pressedKey = "D#4";
+        pressedKey = "D#" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "black";
         break;
       case "c":
       case "C":
-        pressedKey = "E4";
+        pressedKey = "E" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
       case "v":
       case "V":
-        pressedKey = "F4";
+        pressedKey = "F" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
       case "g":
       case "G":
-        pressedKey = "F#4";
+        pressedKey = "F#" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "black";
         break;
       case "b":
       case "B":
-        pressedKey = "G4";
+        pressedKey = "G" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
       case "h":
       case "H":
-        pressedKey = "G#4";
+        pressedKey = "G#" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "black";
         break;
       case "n":
       case "N":
-        pressedKey = "A4";
+        pressedKey = "A" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
       case "j":
       case "J":
-        pressedKey = "A#4";
+        pressedKey = "A" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "black";
         break;
       case "m":
       case "M":
-        pressedKey = "B4";
+        pressedKey = "B" + currentOctaveString;
         document.querySelector(`[data-note=${pressedKey}]`).style.background = "#ccc";
         document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = '#ccc';
         break;
     }
-  
+
     /*triggering the corresponding sound when the correct key is pressed*/
     if (["z", "Z", "s", "S", "x", "X", "d", "D", "c", "C", "v", "V", "g", "G", "b", "B", "h", "H", "n", "N", "j", "J", "m", "M"]
       .includes(event.key)) {
       synth.triggerAttack(pressedKey, '16n');
     }
   })
-}
 
-/*releasing the sound when key is not pressed anymore*/
-document.addEventListener("keyup", event => {
-  synth.triggerRelease();
-})
+  /*releasing the sound when key is not pressed anymore*/
+  document.addEventListener("keyup", event => {
+    synth.triggerRelease();
+    document.querySelector(`[data-note=${pressedKey}]`).style.background = "white";
+  })
+}
 
