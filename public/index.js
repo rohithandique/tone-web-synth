@@ -58,10 +58,10 @@ function octaveSlider(value) {
     }
   }
   document.getElementById('piano').innerHTML = newKeys;
-  addingListeners(currentOctaveString);
+  addingListeners(currentOctave);
 }
 
-function addingListeners(currentOctaveString) {
+function addingListeners(currentOctaveString=0) {
   const majorKeyElem = document.querySelectorAll('.majorKey');
   const minorKeyElem = document.querySelectorAll('.minorKey');
 
@@ -130,8 +130,7 @@ function addingListeners(currentOctaveString) {
   this is what an octave should look like*/
 
   let pressedKey = "";
-  document.addEventListener("keypress", event => {
-
+  document.addEventListener("keydown", (event) => {
     switch (event.key) {
       case "z":
       case "Z":
@@ -205,7 +204,9 @@ function addingListeners(currentOctaveString) {
     /*triggering the corresponding sound when the correct key is pressed*/
     if (["z", "Z", "s", "S", "x", "X", "d", "D", "c", "C", "v", "V", "g", "G", "b", "B", "h", "H", "n", "N", "j", "J", "m", "M"]
       .includes(event.key)) {
-      synth.triggerAttack(pressedKey, '16n');
+        synth.triggerAttack(pressedKey, '16n');
+        event.stopPropagation();
+        console.log(pressedKey);
     }
   })
 
@@ -213,6 +214,7 @@ function addingListeners(currentOctaveString) {
   document.addEventListener("keyup", event => {
     synth.triggerRelease();
     document.querySelector(`[data-note=${pressedKey}]`).style.background = "white";
+    document.querySelector(`[data-note=${pressedKey}]`).lastChild.style.background = 'white';
   })
 }
 
